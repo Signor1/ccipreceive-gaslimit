@@ -59,19 +59,24 @@ async function estimateGasAndIncreaseGasLimit() {
 
   console.log(`Gas limit after 10% increase: ${increasedGasLimit.toString()}`);
 
+  /*
+  With the increased gas limit, the transferUSDC would look like this:
+
+  const transferUsdcTx = await transferUsdcContract.transferUsdc(
+    destinationChainSelector,
+    receiverAddress,
+    amount,
+    increasedGasLimit.toString()
+  );
+
+  console.log(transferUsdcTx);
+  */
+
   return increasedGasLimit;
 }
 
 // Call the `estimateGas` function and catch any errors.
 estimateGasAndIncreaseGasLimit().catch(console.error);
-
-/*
-const gasUsageParameters = [
-  0, // minimum
-  50, // average
-  99, // maximum
-];
-*/
 
 // Follow this guideline to execute this script
 // npm install
