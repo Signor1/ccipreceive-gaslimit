@@ -1,3 +1,5 @@
+import * as dotenvenc from '@chainlink/env-enc';
+dotenvenc.config();
 import { HardhatUserConfig } from 'hardhat/config';
 import '@nomicfoundation/hardhat-toolbox';
 require('@chainlink/env-enc').config();

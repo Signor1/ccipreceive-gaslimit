@@ -1,5 +1,6 @@
 // Load and configure environment variables from a .env file.
-require('@chainlink/env-enc').config();
+import * as dotenvenc from '@chainlink/env-enc';
+dotenvenc.config();
 
 // Import the ethers library for interacting with the Ethereum blockchain.
 import { ethers } from 'ethers';
