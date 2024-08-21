@@ -3,7 +3,7 @@ import * as dotenvenc from '@chainlink/env-enc';
 dotenvenc.config();
 import { ethers } from 'ethers';
 // Configuration details for CCIP
-import { getCCIPConfig } from '../ccip.config';
+import { getCCIPConfig } from '../config';
 // Helper methods for estimating intrinsic gas & creating transaction data.
 import { buildTransactionData, estimateIntrinsicGas } from './helper';
 

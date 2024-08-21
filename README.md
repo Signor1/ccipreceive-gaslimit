@@ -5,7 +5,7 @@ This repository contains a script to estimate the gas consumption of the `ccipRe
 ## Project Structure
 
 - **`GasEstimate.ts`**: This script estimates the gas used by the `ccipReceive` function, increases it by 10%, and logs the results.
-- **`ccip.config.ts`**: Configuration file for the CCIP settings.
+- **`config.ts`**: Configuration file for the CCIP settings.
 - **`helper.ts`**: Helper functions for building transaction data and estimating intrinsic gas.
 
 ## Prerequisites
