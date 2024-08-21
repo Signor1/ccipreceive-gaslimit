@@ -24,9 +24,7 @@ const testData = {
  * @returns {Promise<{ iterations: number; gasUsed: string }[]>} A promise that resolves with an array of gas usage
  * reports, each containing the iteration and gas cost.
  */
-async function estimateGas(
-  gasUsageParameters: number[],
-): Promise<{ iterations: number; gasUsed: string }[]> {
+async function estimateGasAndIncreaseGasLimit() {
   const ethereumSepoliaRouterAddress = getCCIPConfig('ethereumSepolia').router;
   const avalancheFujiChainSelector =
     getCCIPConfig('avalancheFuji').chainSelector;
@@ -34,29 +32,38 @@ async function estimateGas(
   const receiverAddress = testData.ethereumSepolia.receiver;
   const ethereumSepoliaRpcUrl = process.env.ETHEREUM_SEPOLIA_RPC_URL;
   const provider = new ethers.JsonRpcProvider(ethereumSepoliaRpcUrl);
-  const gasUsageReport = [];
 
-  for (const iterations of gasUsageParameters) {
-    const transactionData = buildTransactionData(
-      iterations,
-      avalancheFujiChainSelector,
-      senderAddress,
-    );
-    const estimatedGas = await provider.estimateGas({
-      to: receiverAddress,
-      from: ethereumSepoliaRouterAddress,
-      data: transactionData,
-    });
-    const intrinsicGas = estimateIntrinsicGas(transactionData);
-    const ccipReceiveGas = estimatedGas - intrinsicGas;
-    gasUsageReport.push({ iterations, gasUsed: ccipReceiveGas.toString() });
-  }
+  // Estimate gas for the `ccipReceive` function call
+  const iterations = 50; // Using an arbitrary iteration value
+  const transactionData = buildTransactionData(
+    iterations,
+    avalancheFujiChainSelector,
+    senderAddress,
+  );
 
-  return gasUsageReport;
+  const estimatedGas = await provider.estimateGas({
+    to: receiverAddress,
+    from: ethereumSepoliaRouterAddress,
+    data: transactionData,
+  });
+
+  const intrinsicGas = estimateIntrinsicGas(transactionData);
+  const ccipReceiveGas = estimatedGas - intrinsicGas;
+
+  console.log(
+    `Estimated gas used by ccipReceive: ${ccipReceiveGas.toString()}`,
+  );
+
+  // Increase the estimated gas by 10%
+  const increasedGasLimit = (ccipReceiveGas * 110n) / 100n;
+
+  console.log(`Gas limit after 10% increase: ${increasedGasLimit.toString()}`);
+
+  return increasedGasLimit;
 }
 
 // Call the `estimateGas` function and catch any errors.
-estimateGas([0, 50, 99]).catch(console.error);
+estimateGasAndIncreaseGasLimit().catch(console.error);
 
 /*
 const gasUsageParameters = [
@@ -68,4 +75,4 @@ const gasUsageParameters = [
 
 // Follow this guideline to execute this script
 // npm install
-// npm run GasEstimate
+// npm run estimate
