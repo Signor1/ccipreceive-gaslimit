@@ -1,0 +1,8 @@
+{
+  "ethereumSepolia": {
+    "receiver": "0x473c68D8eBE549F820d15BcE0A493e0d6990a38c"
+  },
+  "avalancheFuji": {
+    "sender": "0x473c68D8eBE549F820d15BcE0A493e0d6990a38c"
+  }
+}
